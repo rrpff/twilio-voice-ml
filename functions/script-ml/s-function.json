@@ -4,7 +4,7 @@
   "description": "Creates a TwiML script for accessing order information.",
   "customName": false,
   "customRole": false,
-  "handler": "handler.handler",
+  "handler": "functions/script-ml/handler.handler",
   "timeout": 6,
   "memorySize": 128,
   "authorizer": {},
@@ -14,7 +14,7 @@
   "endpoints": [
     {
       "path": "script-ml",
-      "method": "GET",
+      "method": "POST",
       "type": "AWS",
       "authorizationType": "none",
       "authorizerFunction": false,
@@ -32,7 +32,7 @@
           "responseParameters": {},
           "responseModels": {},
           "responseTemplates": {
-            "application/json": ""
+            "application/xml": "#set($inputRoot = $input.path('$'))\n$inputRoot.body"
           }
         }
       }
@@ -42,7 +42,8 @@
   "environment": {
     "SERVERLESS_PROJECT": "${project}",
     "SERVERLESS_STAGE": "${stage}",
-    "SERVERLESS_REGION": "${region}"
+    "SERVERLESS_REGION": "${region}",
+    "ORDER_GATHER_URL": "https://taf522husd.execute-api.us-east-1.amazonaws.com/production/twiml-find-order"
   },
   "vpc": {
     "securityGroupIds": [],
